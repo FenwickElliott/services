@@ -58,7 +58,8 @@ func main() {
 		check(err)
 	}
 
-	fmt.Println("inserting")
+	err = c.Insert(service)
+	check(err)
 
 }
 
