@@ -9,7 +9,7 @@ import (
 func main() {
 	fmt.Println("Welcome to the cookie sync service generator!")
 	fmt.Println("We need to ask a few questions about the service to be generated")
-	var name, address, port, redirect string
+	var name, address, port, redirect, mongoServer string
 	fmt.Print("Name: ")
 	fmt.Scanln(&name)
 	if name == "" {
@@ -27,6 +27,11 @@ func main() {
 	if port == "" {
 		port = "80"
 	}
+	fmt.Print("MongoServer: ")
+	fmt.Scanln(&mongoServer)
+	if mongoServer == "" {
+		mongoServer = "cookies.fenwickelliott.io"
+	}
 	fmt.Print("Redirect: ")
 	fmt.Scanln(&redirect)
 
@@ -35,7 +40,7 @@ func main() {
 		Address:     address,
 		Port:        port,
 		Redirect:    redirect,
-		MongoServer: "cookies.fenwickelliott.io",
+		MongoServer: mongoServer,
 	}
 
 	fmt.Println(service)
