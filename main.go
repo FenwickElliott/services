@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fenwickelliott/sync"
+	mgo "gopkg.in/mgo.v2"
 )
 
 func main() {
@@ -43,7 +44,22 @@ func main() {
 		MongoServer: mongoServer,
 	}
 
-	fmt.Println(service)
+	session, err := mgo.Dial("cookies.fenwickelliott.io")
+	check(err)
+	c := session.DB("services").C("services")
+
+	var checkExisting sync.Service
+	err = c.FindId(service.Name).One(&checkExisting)
+
+	if err == nil {
+		fmt.Println("That service name is already taken, please try again")
+		return
+	} else if err != nil && err.Error() != "not found" {
+		check(err)
+	}
+
+	fmt.Println("inserting")
+
 }
 
 func check(err error) {
